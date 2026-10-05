@@ -1,15 +1,9 @@
 package com.cine.trivia_cine.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "usuarios")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Usuario {
 
     @Id
@@ -20,4 +14,18 @@ public class Usuario {
     private String nombre;
 
     private int puntajeMaximo;
+
+    public Usuario() {}
+
+    public Usuario(String nombre, int puntajeMaximo) {
+        this.nombre = nombre;
+        this.puntajeMaximo = puntajeMaximo;
+    }
+
+    // Getters y Setters
+    public Long getId() { return id; }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+    public int getPuntajeMaximo() { return puntajeMaximo; }
+    public void setPuntajeMaximo(int puntajeMaximo) { this.puntajeMaximo = puntajeMaximo; }
 }
