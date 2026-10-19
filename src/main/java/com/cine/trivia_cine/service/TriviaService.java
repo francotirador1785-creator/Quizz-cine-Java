@@ -23,6 +23,24 @@ public class TriviaService {
         return preguntaRepository.findAll();
     }
 
+    // Método dentro de TriviaService.java
+
+    /**
+     * @param preguntaId
+     * @param opcionSeleccionada
+     * @return
+     */
+    public boolean validarRespuesta(Long preguntaId, String opcionSeleccionada) {
+        if (preguntaId == null || opcionSeleccionada == null || opcionSeleccionada.trim().isEmpty()) {
+            throw new IllegalArgumentException("El ID de la pregunta y la opción seleccionada no pueden estar vacíos.");
+        }
+
+        Pregunta pregunta = preguntaRepository.findById(preguntaId)
+                .orElseThrow(() -> new RuntimeException("Pregunta no encontrada con el ID: " + preguntaId));
+
+        return pregunta.getPeliculaCorrecta().equalsIgnoreCase(opcionSeleccionada.trim());
+    }
+
     public Usuario registrarOActualizarUsuario(String nombre, int puntaje) {
         Optional<Usuario> usuarioOpt = usuarioRepository.findByNombre(nombre);
         if (usuarioOpt.isPresent()) {
@@ -38,7 +56,10 @@ public class TriviaService {
         }
     }
 
+    /**
+     * @return
+     */
     public List<Usuario> obtenerRanking() {
-        return usuarioRepository.findAll();
+        return usuarioRepository.findAllByOrderByPuntajeMaximoDesc();
     }
 }

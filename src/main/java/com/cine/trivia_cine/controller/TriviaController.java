@@ -5,6 +5,7 @@ import com.cine.trivia_cine.model.Usuario;
 import com.cine.trivia_cine.service.TriviaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import com.cine.trivia_cine.model.RespuestaDTO;
 
 import java.util.List;
 
@@ -38,5 +39,11 @@ public class TriviaController {
     @GetMapping("/ranking")
     public List<Usuario> obtenerRanking() {
         return triviaService.obtenerRanking();
+    }
+
+    // Endpoint para validar si la respuesta enviada por el usuario es correcta
+    @PostMapping("/validar")
+    public boolean validarRespuesta(@RequestBody RespuestaDTO respuesta) {
+        return triviaService.validarRespuesta(respuesta.getPreguntaId(), respuesta.getOpcionSeleccionada());
     }
 }
