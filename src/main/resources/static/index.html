@@ -1,0 +1,110 @@
+<!DOCTYPE html><!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cine Trivia</title>
+    <!-- Enlace a tu CSS tradicional -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="game-card">
+    <h1 class="game-title">Cine Trivia</h1>
+    <p class="game-subtitle">Adivina la película detrás de la escena</p>
+
+    <!-- Contenedor del Juego -->
+    <div id="game-container">
+        <!-- Contenedor del GIF -->
+        <div id="gif-box">
+            <p style="color: #a855f7;">Cargando escena...</p>
+        </div>
+
+        <!-- Opciones de respuesta -->
+        <div id="options-container">
+            <!-- Se inyectarán dinámicamente desde JS -->
+        </div>
+    </div>
+
+    <!-- Mensaje de resultado -->
+    <div id="result-message" class="hidden"></div>
+</div>
+
+<script>
+    let preguntas = [];
+    let indiceActual = 0;
+
+    async function cargarPreguntas() {
+        try {
+            const response = await fetch('/api/trivia/preguntas');
+            preguntas = await response.json();
+            mostrarPregunta();
+        } catch (error) {
+            console.error("Error al cargar preguntas:", error);
+        }
+    }
+
+    function mostrarPregunta() {
+        if (indiceActual >= preguntas.length) {
+            document.getElementById('game-container').innerHTML = `
+                    <h2 class="game-title" style="font-size: 1.5rem;">Partida Terminada</h2>
+                    <p class="game-subtitle" style="margin-top: 1rem;">¡Has completado todas las escenas disponibles!</p>
+                `;
+            return;
+        }
+
+        const p = preguntas[indiceActual];
+        const gifBox = document.getElementById('gif-box');
+        gifBox.innerHTML = `<img src="${p.gifUrl}" alt="Escena de cine">`;
+
+        const optionsContainer = document.getElementById('options-container');
+        optionsContainer.innerHTML = '';
+
+        // Las 4 opciones de la base de datos
+        const opciones = [p.opcion1, p.opcion2, p.opcion3, p.opcion4];
+
+        opciones.forEach(opcion => {
+            if (opcion && opcion.trim() !== "") { // Dibuja el botón si la opción tiene contenido
+                const btn = document.createElement('button');
+                btn.className = "option-btn";
+                btn.innerText = opcion;
+                btn.onclick = () => validarRespuesta(p.id, opcion);
+                optionsContainer.appendChild(btn);
+            }
+        });
+    }
+
+    async function validarRespuesta(preguntaId, opcionSeleccionada) {
+        try {
+            const response = await fetch('/api/trivia/validar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ preguntaId, opcionSeleccionada })
+            });
+            const esCorrecta = await response.json();
+
+            const msg = document.getElementById('result-message');
+            msg.classList.remove('hidden');
+            if (esCorrecta) {
+                msg.className = "text-success";
+                msg.innerText = "Correcto";
+            } else {
+                msg.className = "text-error";
+                msg.innerText = "Incorrecto";
+            }
+
+            setTimeout(() => {
+                msg.classList.add('hidden');
+                indiceActual++;
+                mostrarPregunta();
+            }, 1500);
+
+        } catch (error) {
+            console.error("Error al validar:", error);
+        }
+    }
+
+    cargarPreguntas();
+</script>
+</body>
+</html>

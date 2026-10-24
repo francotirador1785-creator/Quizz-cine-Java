@@ -1,0 +1,113 @@
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #1a0b2e; /* Fondo oscuro principal */
+    color: #f8fafc;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+/* Tarjeta principal del juego */
+.game-card {
+    width: 100%;
+    max-width: 480px;
+    background-color: #240830; /* Tono de tarjeta de tus prototipos */
+    border: 1px solid rgba(147, 51, 234, 0.3);
+    border-radius: 1rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    padding: 1.5rem;
+    text-align: center;
+}
+
+/* Títulos y textos */
+.game-title {
+    font-size: 1.875rem;
+    font-weight: 800;
+    color: #fde047; /* Amarillo brillante */
+    margin-bottom: 0.25rem;
+}
+
+.game-subtitle {
+    color: #d8b4fe;
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Contenedor del GIF */
+#gif-box {
+    width: 100%;
+    height: 250px;
+    background-color: #000000;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #7e22ce;
+    margin-bottom: 1.5rem;
+    box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.6);
+}
+
+#gif-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Contenedor de opciones */
+#options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+/* Estilo de los botones de opciones */
+.option-btn {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    background-color: rgba(74, 22, 128, 0.6);
+    color: #e2e8f0;
+    font-weight: 600;
+    font-size: 1rem;
+    border: 1px solid #9333ea;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.option-btn:hover {
+    background-color: #fde047; /* Amarillo al pasar el cursor */
+    color: #240830;
+    border-color: #fde047;
+    transform: translateY(-2px);
+}
+
+/* Mensajes de feedback */
+#result-message {
+    margin-top: 1rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+.text-success {
+    color: #34d399;
+}
+
+.text-error {
+    color: #f87171;
+}
+
+.hidden {
+    display: none;
+}
